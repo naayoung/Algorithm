@@ -1,12 +1,8 @@
 def solution(hp):
     answer = 0
+    ant = [5, 3, 1]
     
-    if(hp//5 > 0):
-        answer += hp//5
-        hp = hp%5
-    if(hp//3 > 0):
-        answer += hp//3
-        hp = hp%3
-    if(hp//1 > 0):
-        answer += hp
+    for i in ant:
+        answer += hp//i
+        hp = hp%i
     return answer
