@@ -2,24 +2,11 @@ import sys
 input = sys.stdin.readline
 
 e,s,m = map(int, input().split())
-a, b, c = 1, 1, 1
 answer = 1
 
 while True:
-    if a == e and b == s and c == m:
+    if answer % 15 == e % 15 and answer % 28 == s % 28 and answer % 19 == m % 19:
         print(answer)
         break
     else:
         answer += 1
-        if a == 15:
-            a = 1
-        else:
-            a += 1
-        if b == 28:
-            b = 1
-        else:
-            b += 1
-        if c == 19:
-            c = 1
-        else:
-            c += 1 
