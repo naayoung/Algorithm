@@ -1,8 +1,12 @@
 def solution(phone_book):
-    phone_book.sort()
     answer = True
-    
-    for num1, num2 in zip(phone_book, phone_book[1:]):
-        if num2.startswith(num1):
-            answer = False
+    dic = {}
+    for nums in phone_book:
+        dic[nums] = 1
+    for nums in phone_book:
+        temp = ""
+        for num in nums:
+            temp += num
+            if temp in dic and temp != nums:
+                answer = False
     return answer
