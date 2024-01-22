@@ -1,26 +1,29 @@
-while True :
-    a = input()
-    stack = []
+import sys
+input = sys.stdin.readline
 
-    if a == "." :
+while True:
+    sentence = str(input().rstrip())
+    temp = []
+
+    if sentence == ".":
         break
-
-    for i in a :
-        if i == '[' or i == '(' :
-            stack.append(i)
-        elif i == ']' :
-            if len(stack) != 0 and stack[-1] == '[' :
-                stack.pop() # 맞으면 지워서 stack을 비워줌 0 = yes
-            else : 
-                stack.append(']')
+    
+    for i in sentence:
+        if i == "[" or i == "(":
+            temp.append(i)
+        elif i == "]":
+            if len(temp) != 0 and temp[-1] == "[":
+                temp.pop()
+            else:
+                temp.append(i)
                 break
-        elif i == ')' :
-            if len(stack) != 0 and stack[-1] == '(' :
-                stack.pop()
-            else :
-                stack.append(')')
+        elif i == ")":
+            if len(temp) != 0 and temp[-1] == "(":
+                temp.pop()
+            else:
+                temp.append(i)
                 break
-    if len(stack) == 0 :
-        print('yes')
-    else :
-        print('no')
+    if len(temp) == 0:
+        print("yes")
+    else:
+        print("no")
