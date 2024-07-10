@@ -1,16 +1,21 @@
 import sys
-sys.setrecursionlimit(10000)
+sys.setrecursionlimit(100000)
 input = sys.stdin.readline
 
 n = int(input().strip())
 graph = [list(map(int, input().split())) for _ in range(n)]
+
 visited = [[0] * n for _ in range(n)]
 
 def in_range(x, y):
-    return 0 <= x < n and 0 <= y < n
+    return 0 <= x and x < n and 0 <= y and y < n
 
 def can_go(x, y, k):
-    return in_range(x, y) and not visited[x][y] and graph[x][y] > k
+    if not in_range(x, y):
+        return False
+    if visited[x][y] == 1 or graph[x][y] <= k:
+        return False
+    return True
 
 def dfs(x, y, k):
     dxs, dys = [0, 1, 0, -1], [1, 0, -1, 0]
@@ -27,8 +32,8 @@ def dfs(x, y, k):
 
 def safe_area(k):
     global visited
-    visited = [[0] * n for _ in range(n)]
     count = 0
+    visited = [[0] * n for _ in range(n)]
 
     for i in range(n):
         for j in range(n):
