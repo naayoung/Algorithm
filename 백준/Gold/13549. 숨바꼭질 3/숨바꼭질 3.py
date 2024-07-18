@@ -23,7 +23,7 @@ def bfs():
             if can_go(nx):
                 if nx == x * 2:
                     visited[nx] = visited[x]
-                    q.appendleft(nx)
+                    q.appendleft(nx) # 순간이동은 큐의 앞에 추가
                 else:
                     visited[nx] = visited[x] + 1
                     q.append(nx)
