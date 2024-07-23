@@ -1,5 +1,4 @@
 import sys
-sys.setrecursionlimit(100000)
 input = sys.stdin.readline
 
 n, m, r = map(int, input().split())
@@ -12,16 +11,20 @@ visited = [0] * (n+1)
 count = 0
 
 for i in range(n+1):
-    graph[i].sort(reverse=True)
+    graph[i].sort()
 
-def dfs(x):
+def dfs(start):
     global count
-    count += 1
-    visited[x] = count
+    stack = [start]
 
-    for nx in graph[x]:
-        if visited[nx] == 0:
-            dfs(nx)
+    while stack:
+        x = stack.pop()
+        if visited[x] == 0:
+            count += 1
+            visited[x] = count
+            for nx in graph[x]:
+                if visited[nx] == 0:
+                    stack.append(nx)
 
 dfs(r)
 
