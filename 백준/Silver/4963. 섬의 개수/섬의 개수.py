@@ -3,7 +3,7 @@ sys.setrecursionlimit(10000)
 input = sys.stdin.readline
 
 def in_range(x, y):
-    return 0 <= x and x < h and 0 <= y and y < w
+    return 0 <= x < h and 0 <= y < w
 
 def can_go(x, y):
     if not in_range(x, y):
@@ -23,24 +23,24 @@ def dfs(x, y):
         if can_go(nx, ny):
             dfs(nx, ny)
 
+
 while True:
-    w, h = tuple(map(int, input().split()))
+    w, h = map(int, input().split())
 
     if w == 0 and h == 0:
         break
     else:
-        graph = []
-        for _ in range(h):
-            graph.append(list(map(int, input().split())))
+        graph = [list(map(int, input().split())) for _ in range(h)]
+    
+    cnt = 0
+    visited = [[0]*w for _ in range(h)]
 
-        visited = [[0] * w for _ in range(h)]
-        land = 0
+    for x in range(h):
+        for y in range(w):
+            if can_go(x, y):
+                visited[x][y] = 1
+                cnt += 1
 
-        for i in range(h):
-            for j in range(w):
-                if can_go(i, j):
-                    visited[i][j] = 1
-                    land += 1
-
-                    dfs(i, j)
-        print(land)
+                dfs(x, y)
+    
+    print(cnt)
