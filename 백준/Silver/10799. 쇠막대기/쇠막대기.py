@@ -1,18 +1,17 @@
 import sys
 input = sys.stdin.readline
 
-t = input().strip()
+m = list(input().strip())
+cnt = 0
+temp = []
 
-stack = []
-count = 0
-for i in range(len(t)):
-    if t[i] == "(":
-        stack.append("(")
-    else:
-        if t[i-1] == "(":
-            stack.pop()
-            count += len(stack)
-        else:
-            stack.pop()
-            count += 1
-print(count)
+for i in range(len(m)):
+    if m[i] == '(':  # 여는 괄호면 스택에 추가
+        temp.append('(')
+    else:  # 닫는 괄호일 때
+        temp.pop()
+        if m[i - 1] == '(':  # 레이저
+            cnt += len(temp)
+        else:  # 막대기 끝
+            cnt += 1
+print(cnt)
