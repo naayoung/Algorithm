@@ -1,50 +1,50 @@
+from collections import deque
 import sys
-sys.setrecursionlimit(100000)
 input = sys.stdin.readline
 
 n, m = map(int, input().split())
-graph = []
+picture = []
 for _ in range(n):
-    graph.append(list(map(int, input().split())))
-visited = [[0] * m for _ in range(n)]
+    picture.append(list(map(int, input().split())))
+visited = [[0]*m for _ in range(n)]
 
-def in_range(x, y):
-    return 0 <= x and x < n and 0 <= y and y < m
+def in_range(row, col):
+    return 0 <= row < n and 0 <= col < m
 
-def can_go(x, y):
-    if not in_range(x, y):
+def can_go(row, col):
+    if not in_range(row, col):
         return False
-    if visited[x][y] == 1 or graph[x][y] == 0:
+    if visited[row][col] == 1 or picture[row][col] == 0:
         return False
     return True
 
-def dfs(x, y):
-    global count
-    dxs, dys = [0, 1, 0, -1], [1, 0, -1, 0]
+def bfs(row, col):
+    drs, dcs = [0, 1, 0, -1], [1, 0, -1, 0]
+    q = deque()
+    q.append((row, col))
+    visited[row][col] = 1
 
-    stack = [(x, y)]
+    size = 1
 
-    while stack:
-        x, y = stack.pop()
+    while q:
+        r, c = q.popleft()
+        for dr, dc in zip(drs, dcs):
+            nr, nc = r+dr, c+dc
 
-        for dx, dy in zip(dxs, dys):
-            nx, ny = x + dx, y + dy
-            if can_go(nx, ny):
-                #dfs(nx, ny)
-                count += 1
-                visited[nx][ny] = 1
+            if can_go(nr, nc):
+                visited[nr][nc] = 1
+                q.append((nr, nc))
+                size += 1
+    return size
 
-                stack.append((nx, ny))
 
 answer = []
-for i in range(n):
-    for j in range(m):
-        if can_go(i, j):
-            count = 1
-            visited[i][j] = 1
+for r in range(n):
+    for c in range(m):
+        if can_go(r, c):
+            answer.append(bfs(r, c))
 
-            dfs(i, j)
-            answer.append(count)
+
 if answer:
     print(len(answer))
     print(max(answer))
