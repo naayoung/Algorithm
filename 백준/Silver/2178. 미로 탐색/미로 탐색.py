@@ -1,37 +1,44 @@
-import sys
 from collections import deque
+import sys
 input = sys.stdin.readline
 
 n, m = map(int, input().split())
 graph = []
 for _ in range(n):
     graph.append(list(map(int, input().strip())))
-visited = [[0] * m for _ in range(n)]
-q = deque()
+visited = [[0]*m for _ in range(n)]
+ans_count = [[0]*m for _ in range(n)]
 
-def in_range(x, y):
-    return 0 <= x and x < n and 0 <= y and y < m
-
-def can_go(x, y):
-    if not in_range(x, y):
+def in_range(r, c):
+    return 0 <= r < n and 0 <= c < m
+def can_go(r, c):
+    if not in_range(r, c):
         return False
-    if visited[x][y] == 1 or graph[x][y] == 0:
+    if visited[r][c] == 1 or graph[r][c] == 0:
         return False
     return True
 
-def bfs():
+def bfs(r, c):
+    q = deque()
+    q.append((r, c))
+    visited[r][c] = 1
+    ans_count[r][c] = 1
+
+    drs, dcs = [0, 1, 0, -1], [1, 0, -1, 0]
+
     while q:
-        x, y = q.popleft()
+        r, c = q.popleft()
+        for dr, dc in zip(drs, dcs):
+            nr, nc = r+dr, c+dc
 
-        dxs, dys = [0, 1, 0, -1], [1, 0, -1, 0]
-        for dx, dy in zip(dxs, dys):
-            nx, ny = x + dx, y + dy
-            if can_go(nx, ny):
-                visited[nx][ny] = 1
-                graph[nx][ny] = graph[x][y] + 1
-                q.append((nx, ny))
+            if can_go(nr, nc):
+                q.append((nr, nc))
+                visited[nr][nc] = 1
+                ans_count[nr][nc] = ans_count[r][c] + 1
+                
+for r in range(n):
+    for c in range(m):
+        if can_go(r, c):
+            bfs(r, c)
 
-q.append((0, 0))
-visited[0][0] = 1
-bfs()
-print(graph[n-1][m-1])
+print(ans_count[n-1][m-1])
