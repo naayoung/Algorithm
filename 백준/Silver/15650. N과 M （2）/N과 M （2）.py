@@ -1,17 +1,17 @@
 import sys
 input = sys.stdin.readline
 
-def back(start):
+def backtrack(s):
     if len(answer) == m:
-        print(" ".join(map(str, answer)))
+        print(*answer)
         return
-    for i in range(start, n+1):
+    
+    for i in range(s, n+1):
         if i not in answer:
             answer.append(i)
-            back(i)
+            backtrack(i)
             answer.pop()
 
 n, m = map(int, input().split())
 answer = []
-
-back(1)
+backtrack(1)
