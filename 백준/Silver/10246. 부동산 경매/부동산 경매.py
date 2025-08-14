@@ -1,16 +1,23 @@
 import sys
-memo = [0] * 10000001
-for i in range(1, 10000000):
-    temp = 0
-    j = i
-    while temp <= 10000000:
-        temp += j + 1
-        j += 1
-        if temp > 10000000:
+
+input = sys.stdin.readline
+
+max_size = 1000000
+count = [0] * (max_size + 1)
+
+
+for k in range(1, max_size + 1):
+    max_x = (max_size + 1 // k) + 1
+
+    for x in range(2, max_x):
+        total = x * k + (k * (k - 1)) // 2
+        if total > max_size:
             break
-        memo[temp] += 1
+        count[total] += 1
+
 while True:
-    N = int(sys.stdin.readline())
+    N = int(input())
     if N == 0:
-        sys.exit()
-    print(memo[N])
+        break
+
+    print(count[N])
