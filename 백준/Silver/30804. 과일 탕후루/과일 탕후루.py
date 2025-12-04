@@ -1,24 +1,24 @@
 import sys
-from collections import defaultdict
-
 input = sys.stdin.readline
 
 N = int(input().strip())
 fruits = list(map(int, input().split()))
 
-cnt = defaultdict(int)
-left = 0
+cnt = {}
 ans = 0
+start = 0
 
-for right in range(N):
-    cnt[fruits[right]] += 1
+for end in range(N):
+    if fruits[end] in cnt:
+        cnt[fruits[end]] += 1
+    else:
+        cnt[fruits[end]] = 1
 
     while len(cnt) > 2:
-        cnt[fruits[left]] -= 1
-        if cnt[fruits[left]] == 0:
-            del cnt[fruits[left]]
-        left += 1
-
-    ans = max(ans, right - left + 1)
+        cnt[fruits[start]] -= 1
+        if cnt[fruits[start]] == 0:
+            del cnt[fruits[start]]
+        start += 1
+    ans = max(ans, end-start + 1)
 
 print(ans)
